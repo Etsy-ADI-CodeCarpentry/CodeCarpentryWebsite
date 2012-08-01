@@ -11,11 +11,11 @@ The website for the Code Carpentry project.
     * cd into this repo and say "yes"
     * Install bundler: `gem install bundler --pre --no-rdoc --no-ri`
     * Install all the gems: `bundle`
-    * Setup connection to production: `heroku git:remote -a codecarpentry`
+    * Setup connection to production: `heroku git:remote -a codecarpentry` (requires permssion, ask).
 
 * To do frequently...
     * Install all the gems: `bundle`
     * Start the various systems: `rake dev:start`
     * Start the server: `rails s`
-    * [Deploy code](https://devcenter.heroku.com/articles/git): `git push origin heroku`
+    * [Deploy code](https://devcenter.heroku.com/articles/git): `git push heroku master`
     * Open your browser on `localhost:3000`. Win.
