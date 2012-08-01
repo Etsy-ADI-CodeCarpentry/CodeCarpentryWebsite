@@ -2,6 +2,9 @@
 *.rbc
 .bundle
 .config
+.idea
+.DS_Store
+log/
 coverage
 InstalledFiles
 lib/bundler/man
