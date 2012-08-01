@@ -1,0 +1,3 @@
+--color
+-p
+--require=./spec/spec_helper.rb
