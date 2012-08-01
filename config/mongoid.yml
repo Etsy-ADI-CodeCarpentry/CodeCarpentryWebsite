@@ -66,3 +66,6 @@ test:
         - localhost:27017
       options:
         consistency: :strong
+
+production:
+  uri: <%= ENV['MONGOLAB_URI'] %>
