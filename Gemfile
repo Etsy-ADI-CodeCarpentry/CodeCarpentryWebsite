@@ -18,12 +18,15 @@ group :assets do
 end
 
 group :test do
-  gem 'rspec-rails'
   gem 'capybara'
-  gem  'database_cleaner'
+  gem 'database_cleaner'
 end
 
 group :development do
   gem 'daemons'
   gem 'heroku'
+end
+
+group :test, :development do
+  gem 'rspec-rails'
 end
