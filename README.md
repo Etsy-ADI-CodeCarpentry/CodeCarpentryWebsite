@@ -1,6 +1,6 @@
 # CodeCarpentry Website
 
-The website for the Code Carpentry project.
+The website for the Code Carpentry project. It lives [here](http://codecarpentry.herokuapp.com/).
 
 ## Repo Setup
 * To do once...
