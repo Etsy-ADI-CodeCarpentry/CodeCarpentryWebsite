@@ -9,6 +9,7 @@ gem 'simple_form'
 gem 'mongoid'
 gem 'jquery-rails'
 gem 'haml-rails'
+gem 'github_api'
 
 group :assets do
   gem 'sass-rails'
