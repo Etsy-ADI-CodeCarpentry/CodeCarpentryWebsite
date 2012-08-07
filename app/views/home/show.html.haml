@@ -4,3 +4,5 @@
   -repo.contributors.each do |contributor|
     =contributor[:login]
     %img{:src => contributor[:avatar_url]}
+%p
+  = link_to "Refresh", :controller => 'gitHub', :action => 'refresh'
