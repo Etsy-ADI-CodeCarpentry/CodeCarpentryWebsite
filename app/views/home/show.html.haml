@@ -1,7 +1,6 @@
-- @repo_list.each do |hash|
+- @repos.each do |repo|
   %p
-    =hash[:name]
-  - hash[:contributors].each do |contributor|
-    %p
-      =contributor[:login]
-    %img{:src => contributor[:avatar]}
+    =repo.name
+  -repo.contributors.each do |contributor|
+    =contributor[:login]
+    %img{:src => contributor[:avatar_url]}
