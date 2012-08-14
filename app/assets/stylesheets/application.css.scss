@@ -7,7 +7,7 @@ $dark-background-color: #E6E7E8;
 $light-background-color: #F1F2F2;
 $font-color: #6c6c6c;
 $body-font: Georgia;
-$header-font: 'Ropa Sans';
+$header-font: 'Oswald';
 $section-margin: 40px;
 
 @mixin gradient($from, $to){
@@ -71,27 +71,29 @@ body {
           text-align: center;
           font-family: $header-font;
           color: $header-font-color;
+          font-weight: 100;
         }
         h1 {
-          font-size: 60px;
+          font-size: 47px;
           letter-spacing: 3px;
           margin-bottom: -7px;
         }
         h2 {
-          font-size: 24px;
+          font-size: 21px;
         }
 
         p {
           margin: 0 auto;
           margin-top: $section-margin;
-          max-width: 700px;
-          font-size: 20px;
+          max-width: 600px;
+          font-size: 17px;
           line-height: 25px;
+          text-align: justify;
 
         }
 
         .divider {
-          width: 475px;
+          width: 380px;
         }
       }
     }
