@@ -65,4 +65,8 @@ class Repository
     commits_within_day = commits.reject { |c| c.date < 1.day.ago }
     return commits_within_day.group_by { |c| c.contributor_id }.size
   end
+
+  def commits_within_last_week
+    return commits.reject { |c| c.date < 1.week.ago }.size
+  end
 end
