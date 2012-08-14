@@ -1,5 +1,6 @@
 require 'date'
 require 'github_api'
+include ActionView::Helpers::DateHelper
 
 class Repository
   include Mongoid::Document
@@ -50,5 +51,9 @@ class Repository
       end
       repo.save
     end
+  end
+
+  def time_since_last_commit_in_words
+      return time_ago_in_words(commits.sort_by { |c| c.date }.last.date)
   end
 end

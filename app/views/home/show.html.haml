@@ -1,6 +1,9 @@
 - @repos.each do |repo|
   %p
     =repo.name
+  %p
+    =repo.time_since_last_commit_in_words
+    since last push
   -repo.contributors.each do |contributor|
     =contributor[:login]
     %img{:src => contributor[:avatar_url]}
