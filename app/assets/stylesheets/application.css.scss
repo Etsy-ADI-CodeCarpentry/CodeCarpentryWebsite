@@ -1,10 +1,116 @@
 //= require_self
 //= require_tree .
 
+$divider-color: #9FC9EB;
+$header-font-color: #F26739;
+$dark-background-color: #E6E7E8;
+$light-background-color: #F1F2F2;
+$font-color: #6c6c6c;
+$body-font: Georgia;
+$header-font: 'Ropa Sans';
+$section-margin: 40px;
+
+@mixin gradient($from, $to){
+/* fallback/image non-cover color */
+  background-color: $from;
+
+/* Firefox 3.6+ */
+  background-image: -moz-linear-gradient($from, $to);
+
+/* Safari 4+, Chrome 1+ */
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+
+/* Safari 5.1+, Chrome 10+ */
+  background-image: -webkit-linear-gradient($from, $to);
+
+/* Opera 11.10+ */
+  background-image: -o-linear-gradient($from, $to);
+}
+
+body, html {
+  padding: 0px;
+  margin: 0px;
+  background-color: white;
+}
+
 body {
-  font-family: Helvetica;
+  font-family: $body-font;
+  color: $font-color;
+
+  .divider {
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 100%;
+    height: 2px;
+    background-color: $dark-background-color;
+  }
 
   .container {
-    font-family: Arial;
+    margin: $section-margin;
+    height: 100%;
+    h3 {
+      margin-top: 0px;
+      color: $header-font-color;
+      font-family: Arial;
+    }
+    .header_container {
+      .logo {
+        margin: 0 auto;
+        width: 293px;
+        height: 293px;
+        background-repeat: no-repeat;
+        background: url(/assets/sprites.png) 0 0;
+      }
+      .blurb {
+        @include gradient(white, $dark-background-color);
+        padding: $section-margin;
+
+        h1, h2 {
+          margin: 0 auto;
+          text-align: center;
+          font-family: $header-font;
+          color: $header-font-color;
+        }
+        h1 {
+          font-size: 60px;
+          letter-spacing: 3px;
+          margin-bottom: -7px;
+        }
+        h2 {
+          font-size: 24px;
+        }
+
+        p {
+          margin: 0 auto;
+          margin-top: $section-margin;
+          max-width: 700px;
+          font-size: 20px;
+          line-height: 25px;
+
+        }
+
+        .divider {
+          width: 475px;
+        }
+      }
+    }
+
+    .project_summary {
+      padding: $section-margin 0px $section-margin 0px;
+      p.title{
+        margin: 0;
+        font-family: $header-font;
+        color: $header-font-color;
+        font-size: 25px;
+      }
+
+      margin: 0 auto;
+      max-width: 800px;
+    }
+
+    //.repo_container{
+    //  background:url(/images/sprites.png) 0 0;
+    //}
   }
 }

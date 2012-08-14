@@ -1,3 +1,36 @@
+.header_container
+  .logo
+
+  .blurb
+    %h1
+      CODE CARPENTRY
+
+    .divider
+
+    %h2
+      ETSY ENGINEERING + COLUMBIA UNIVERSITY
+    %p
+      What's better than hacking with brilliant students? Teaming up with
+      Etsy engineers who can teach you all the secrets. But how do they do it?
+      What are their techniques? All these questions will be answered, and more this
+      Fall when Etsy's engineering team collaborates with young developers from
+      Columbia University's student-led Application Development Initiative.
+
+.project_summary
+  %p.title
+    CURRENT PROJECT
+
+  .divider
+
+  %h3
+    Some Sample Project
+  %p
+    This is a description of the current project that is assigned to the students. This will probably
+    have some details describing what needs to happen in order to complete.
+
+
+-#.repo_container
+
 - @repos.each do |repo|
   %p
     =repo.name
@@ -6,3 +39,4 @@
     %img{:src => contributor[:avatar_url]}
 %p
   = link_to "Refresh", :controller => 'gitHub', :action => 'refresh'
+
