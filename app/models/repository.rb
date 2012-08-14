@@ -1,5 +1,6 @@
 require 'date'
 require 'github_api'
+include ActionView::Helpers::DateHelper
 
 class Repository
   include Mongoid::Document
@@ -13,18 +14,15 @@ class Repository
   def self.fetch_from_github
     repos = @@github.repos.list org: @@org
     repos.each do |r|
-      repo = Repository.where(name: r.name).first
-      if not repo
-        repo = Repository.create(name: r.name)
-      end
+      repo = Repository.where(name: r.name).first or Repository.create(name: r.name)
       contributors_response = @@github.repos.contributors @@org, repo.name
       contributors_response.reject { |c| c.url.include? '/orgs/' }.each do |c|
         contributor = Contributor.where(login: c.login).first
         if not contributor
           contributor = Contributor.new(
-            :login => c.login,
-            :avatar_url => c.avatar_url,
-            :repository => repo
+            login: c.login,
+            avatar_url: c.avatar_url,
+            repository: repo
           )
         end
         if not repo.contributors.where(login: contributor.login).exists?
@@ -39,11 +37,11 @@ class Repository
           date_string = c.commit.author.values_at('date')[0]
           date = DateTime.strptime(date_string, '%Y-%m-%dT%H:%M:%S%Z')
           commit = Commit.new(
-            :message => c.commit.message,
-            :contributor => repo.contributors.where(login: c.author.login).first,
-            :repository => repo,
-            :date => date,
-            :sha => c.sha
+            message: c.commit.message,
+            contributor: repo.contributors.where(login: c.author.login).first,
+            repository: repo,
+            date: date,
+            sha: c.sha
           )
         end
         if not repo.commits.where(sha: commit.sha).exists?
@@ -53,5 +51,22 @@ class Repository
       end
       repo.save
     end
+  end
+
+  def time_since_last_commit_in_words
+    return time_ago_in_words(commits.sort_by { |c| c.date }.last.date)
+  end
+
+  def number_members_total
+    return contributors.size
+  end
+
+  def number_members_committed_within_day
+    commits_within_day = commits.reject { |c| c.date < 1.day.ago }
+    return commits_within_day.group_by { |c| c.contributor_id }.size
+  end
+
+  def commits_within_last_week
+    return commits.reject { |c| c.date < 1.week.ago }.size
   end
 end

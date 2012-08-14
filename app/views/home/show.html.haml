@@ -34,6 +34,17 @@
 - @repos.each do |repo|
   %p
     =repo.name
+  %p
+    =repo.time_since_last_commit_in_words
+    since last push
+  %p
+    =repo.commits_within_last_week
+    commits within the last week
+  %p
+    =repo.number_members_committed_within_day
+    out of
+    =repo.number_members_total
+    pushed within the last day! yay
   -repo.contributors.each do |contributor|
     =contributor[:login]
     %img{:src => contributor[:avatar_url]}
