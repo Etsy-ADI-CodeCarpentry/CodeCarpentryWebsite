@@ -54,6 +54,15 @@ class Repository
   end
 
   def time_since_last_commit_in_words
-      return time_ago_in_words(commits.sort_by { |c| c.date }.last.date)
+    return time_ago_in_words(commits.sort_by { |c| c.date }.last.date)
+  end
+
+  def number_members_total
+    return contributors.size
+  end
+
+  def number_members_committed_within_day
+    commits_within_day = commits.reject { |c| c.date < 1.day.ago }
+    return commits_within_day.group_by { |c| c.contributor_id }.size
   end
 end
