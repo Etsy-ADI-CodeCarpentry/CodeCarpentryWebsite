@@ -8,45 +8,43 @@ class Repository
   has_many :contributors
   has_many :commits
 
-  @@org = 'Etsy-ADI-CodeCarpentry' # todo: make this a config option
-  @@github = Github.new
-
   def self.fetch_from_github
-    repos = @@github.repos.list org: @@org
-    repos.each do |r|
-      repo = Repository.where(name: r.name).first or Repository.create(name: r.name)
-      contributors_response = @@github.repos.contributors @@org, repo.name
-      contributors_response.reject { |c| c.url.include? '/orgs/' }.each do |c|
-        contributor = Contributor.where(login: c.login).first
-        if not contributor
-          contributor = Contributor.new(
-            login: c.login,
-            avatar_url: c.avatar_url,
+    repos = Github.new.repos
+
+    YAML::load_file(File.join(Rails.root, 'config', 'repositories.yml')).each do |config|
+      config.symbolize_keys!
+
+      repo = Repository.where(name: config[:name]).first || Repository.create(
+          name: config[:name],
+          description: config[:description]
+      )
+
+      repos.contributors(config[:user], config[:repo]).each do |github_contributor|
+        contributor = Contributor.where(login: github_contributor.login).first || Contributor.new(
+            login: github_contributor.login,
+            avatar_url: github_contributor.avatar_url,
             repository: repo
-          )
-        end
-        if not repo.contributors.where(login: contributor.login).exists?
-          repo.contributors << contributor
-        end
+        )
+
+        repo.contributors << contributor unless repo.contributors.where(login: contributor.login).exists?
         contributor.save
       end
-      commits_response = @@github.repos.commits.all @@org, repo.name
-      commits_response.each do |c|
-        commit = Commit.where(sha: c.sha).first
-        if not commit
-          date_string = c.commit.author.values_at('date')[0]
+
+      repos.commits.all(config[:user], config[:repo]).each do |github_commit|
+        commit = Commit.where(sha: github_commit.sha).first
+        if !commit
+          date_string = github_commit.commit.author.values_at('date').first
           date = DateTime.strptime(date_string, '%Y-%m-%dT%H:%M:%S%Z')
           commit = Commit.new(
-            message: c.commit.message,
-            contributor: repo.contributors.where(login: c.author.login).first,
-            repository: repo,
-            date: date,
-            sha: c.sha
+              message: github_commit.commit.message,
+              contributor: repo.contributors.where(login: github_commit.commit.author.login).first,
+              repository: repo,
+              date: date,
+              sha: github_commit.sha
           )
         end
-        if not repo.commits.where(sha: commit.sha).exists?
-          repo.commits << commit
-        end
+
+        repo.commits << commit unless repo.commits.where(sha: commit.sha).exists?
         commit.save
       end
       repo.save
@@ -54,19 +52,19 @@ class Repository
   end
 
   def time_since_last_commit_in_words
-    return time_ago_in_words(commits.sort_by { |c| c.date }.last.date)
+    time_ago_in_words(commits.sort_by { |c| c.date }.last.date)
   end
 
   def number_members_total
-    return contributors.size
+    contributors.size
   end
 
   def number_members_committed_within_day
     commits_within_day = commits.reject { |c| c.date < 1.day.ago }
-    return commits_within_day.group_by { |c| c.contributor_id }.size
+    commits_within_day.group_by { |c| c.contributor_id }.size
   end
 
   def commits_within_last_week
-    return commits.reject { |c| c.date < 1.week.ago }.size
+    commits.reject { |c| c.date < 1.week.ago }.size
   end
 end
