@@ -27,25 +27,36 @@
   %p
     The first project up is to build the website for the Code Carpentry program... This website, in fact!
 
--#.repo_container
 
-- @repos.each do |repo|
-  %p
-    =repo.name
-  %p
-    =repo.time_since_last_commit_in_words
-    since last push
-  %p
-    =repo.commits_within_last_week
-    commits within the last week
-  %p
-    =repo.number_members_committed_within_day
-    out of
-    =repo.number_members_total
-    pushed within the last day! yay
-  -repo.contributors.each do |contributor|
-    =contributor[:login]
-    %img{:src => contributor[:avatar_url]}
+- @repos.each_with_index do |repo, i|
+  .repo_container
+    .stats
+      .team_logo{id: "logo-#{i+1}"}
+      %p.number
+        =repo.time_since_last_commit_in_words_number
+      %p.title
+        =repo.time_since_last_commit_in_words_units.upcase
+        SINCE LAST PUSH
+      %p.number
+        =repo.commits_within_last_week
+      %p.title
+        COMMITS WITHIN THE LAST WEEK
+      %p.number
+        ="#{repo.number_members_committed_within_day}/#{repo.number_members_total}"
+      %p.title
+        MEMBERS PUSHED WITHIN THE LAST DAY
+    .description
+      %h3
+        =repo.name
+      %p
+        =repo.description
+    .avatars
+      -repo.contributors.each do |contributor|
+        %img{:src => contributor[:avatar_url] + "&size=125" }
+      .divider
+      ="Last Github Update: #{repo.last_commit_date}"
+
+    .clearfix
 %p
   = link_to "Refresh", :controller => 'gitHub', :action => 'refresh'
 

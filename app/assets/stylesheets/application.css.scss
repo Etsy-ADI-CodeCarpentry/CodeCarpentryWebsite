@@ -27,6 +27,10 @@ $section-margin: 40px;
   background-image: -o-linear-gradient($from, $to);
 }
 
+.clearfix {
+    clear: both;
+}
+
 body, html {
   padding: 0px;
   margin: 0px;
@@ -111,8 +115,77 @@ body {
       max-width: 800px;
     }
 
-    //.repo_container{
-    //  background:url(/images/sprites.png) 0 0;
-    //}
+    .repo_container {
+      padding: $section-margin 0px $section-margin 0px;
+      margin: 0 auto;
+      max-width: 800px;
+      clear: both;
+      background-color: $light-background-color;
+
+      .stats {
+        float: left;
+        width: 121px;
+        text-align: center;
+        padding: 0 10px;
+
+        .team_logo {
+          width: 121px;
+          height: 121px;
+        }
+
+        .team_logo#logo-1 {
+          background: url(/assets/sprites.png) -293px -93px;
+        }
+        .team_logo#logo-2 {
+          background: url(/assets/sprites.png) -416px -93px;
+        }
+
+        h2 {
+          margin-top: 20px;
+          margin-bottom: 0px;
+          color: $header-font-color;
+          font-family: Arial;
+          font-weight: bold;
+        }
+
+        p {
+          margin-top: 0;
+          margin-bottom: 0;
+          font-family: $header-font;
+          color: $header-font-color;
+          font-size: 16px;
+        }
+
+        p.number {
+          margin-top: 10px;
+          font-size: 24px;
+        }
+
+        p.title {
+          font-size: 12px;
+          margin: 0 15px;
+        }
+      }
+
+      .description {
+        float: left;
+        width: 330px;
+        padding: 0 10px;
+
+      }
+
+      .avatars {
+        float: left;
+        width: 300px;
+
+        img {
+          padding: 0 20px 20px 0;
+        }
+
+        .divider {
+          background-color: $divider-color;
+        }
+      }
+    }
   }
 }

@@ -51,8 +51,16 @@ class Repository
     end
   end
 
-  def time_since_last_commit_in_words
-    time_ago_in_words(commits.sort_by { |c| c.date }.last.date)
+  def last_commit_date
+    commits.sort_by { |c| c.date }.last.date.to_date.to_formatted_s(:long)
+  end
+
+  def time_since_last_commit_in_words_number
+    time_ago_in_words(commits.sort_by { |c| c.date }.last.date).split.first
+  end
+
+  def time_since_last_commit_in_words_units
+    time_ago_in_words(commits.sort_by { |c| c.date }.last.date).split.last
   end
 
   def number_members_total
