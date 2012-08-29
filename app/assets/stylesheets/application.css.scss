@@ -9,6 +9,7 @@ $font-color: #6c6c6c;
 $body-font: Georgia;
 $header-font: 'Oswald';
 $section-margin: 40px;
+$content-width: 835px;
 
 @mixin gradient($from, $to){
 /* fallback/image non-cover color */
@@ -28,7 +29,7 @@ $section-margin: 40px;
 }
 
 .clearfix {
-    clear: both;
+  clear: both;
 }
 
 body, html {
@@ -51,8 +52,9 @@ body {
   }
 
   .container {
-    margin: $section-margin;
     height: 100%;
+    margin-top: 20px;
+
     h3 {
       margin-top: 0px;
       color: $header-font-color;
@@ -104,86 +106,123 @@ body {
 
     .project_summary {
       padding: $section-margin 0px $section-margin 0px;
-      p.title{
+      p.title {
         margin: 0;
         font-family: $header-font;
         color: $header-font-color;
         font-size: 25px;
       }
 
+      width: $content-width;
       margin: 0 auto;
-      max-width: 800px;
     }
 
     .repo_container {
-      padding: $section-margin 0px $section-margin 0px;
-      margin: 0 auto;
-      max-width: 800px;
+      padding-top: $section-margin;
+      margin-top: 50px;
       clear: both;
       background-color: $light-background-color;
 
-      .stats {
-        float: left;
-        width: 121px;
-        text-align: center;
-        padding: 0 10px;
+      border-top: 3px solid #f9fafa;
+      border-bottom: 3px solid #f9fafa;
 
-        .team_logo {
-          width: 121px;
-          height: 121px;
+      .repo {
+
+        margin: 0 auto;
+        width: $content-width;
+
+        .stats {
+          float: left;
+          width: 122px;
+          text-align: center;
+          padding: 0 10px;
+
+          .team_logo {
+            width: 122px;
+            height: 122px;
+            position: relative;
+            top: -60px;
+          }
+
+          .team_logo#logo-1 {
+            background: url(/assets/sprites.png) -293px -93px;
+          }
+          .team_logo#logo-2 {
+            background: url(/assets/sprites.png) -415px -93px;
+          }
+          .team_logo#logo-3 {
+            background: url(/assets/sprites.png) -537px -93px;
+          }
+          .team_logo#logo-4 {
+            background: url(/assets/sprites.png) -659px -93px;
+          }
+          .team_logo#logo-5 {
+            background: url(/assets/sprites.png) -293px -215px;
+          }
+          .team_logo#logo-6 {
+            background: url(/assets/sprites.png) -415px -215px;
+          }
+          .team_logo#logo-7 {
+            background: url(/assets/sprites.png) -537px -215px;
+          }
+          .team_logo#logo-8 {
+            background: url(/assets/sprites.png) -659px -215px;
+          }
+
+          h2 {
+            margin-top: 20px;
+            margin-bottom: 0px;
+            color: $header-font-color;
+            font-family: Arial;
+            font-weight: bold;
+          }
+
+          p {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-family: $header-font;
+            color: $header-font-color;
+            font-size: 16px;
+            position: relative;
+            top: -40px;
+          }
+
+          p.number {
+            margin-top: 10px;
+            font-size: 24px;
+          }
+
+          p.title {
+            font-size: 12px;
+            margin: 0 15px;
+          }
         }
 
-        .team_logo#logo-1 {
-          background: url(/assets/sprites.png) -293px -93px;
-        }
-        .team_logo#logo-2 {
-          background: url(/assets/sprites.png) -416px -93px;
-        }
-
-        h2 {
-          margin-top: 20px;
-          margin-bottom: 0px;
-          color: $header-font-color;
-          font-family: Arial;
-          font-weight: bold;
+        .description {
+          float: left;
+          width: 330px;
+          padding: 0 10px 0 30px;
         }
 
-        p {
-          margin-top: 0;
-          margin-bottom: 0;
-          font-family: $header-font;
-          color: $header-font-color;
-          font-size: 16px;
-        }
+        .avatars {
+          float: left;
+          img {
+            padding: 0 0 20px 20px;
+          }
 
-        p.number {
-          margin-top: 10px;
-          font-size: 24px;
-        }
+          .divider, .last_commit {
+            margin-left: 20px;
+          }
 
-        p.title {
-          font-size: 12px;
-          margin: 0 15px;
-        }
-      }
+          .last_commit {
+            color: #a1a1a1;
+            margin-top: 15px;
+          }
 
-      .description {
-        float: left;
-        width: 330px;
-        padding: 0 10px;
-
-      }
-
-      .avatars {
-        float: left;
-        width: 300px;
-
-        img {
-          padding: 0 20px 20px 0;
-        }
-
-        .divider {
-          background-color: $divider-color;
+          .divider {
+            width: 295px;
+            background-color: $divider-color;
+          }
         }
       }
     }

@@ -28,35 +28,37 @@
     The first project up is to build the website for the Code Carpentry program... This website, in fact!
 
 
-- @repos.each_with_index do |repo, i|
+- [@repos[0], @repos[0], @repos[0], @repos[0], @repos[0], @repos[0], @repos[0], @repos[0]].each_with_index do |repo, i|
   .repo_container
-    .stats
-      .team_logo{id: "logo-#{i+1}"}
-      %p.number
-        =repo.time_since_last_commit_in_words_number
-      %p.title
-        =repo.time_since_last_commit_in_words_units.upcase
-        SINCE LAST PUSH
-      %p.number
-        =repo.commits_within_last_week
-      %p.title
-        COMMITS WITHIN THE LAST WEEK
-      %p.number
-        ="#{repo.number_members_committed_within_day}/#{repo.number_members_total}"
-      %p.title
-        MEMBERS PUSHED WITHIN THE LAST DAY
-    .description
-      %h3
-        =repo.name
-      %p
-        =repo.description
-    .avatars
-      -repo.contributors.each do |contributor|
-        %img{:src => contributor[:avatar_url] + "&size=125" }
-      .divider
-      ="Last Github Update: #{repo.last_commit_date}"
+    .repo
+      .stats
+        .team_logo{id: "logo-#{i+1}"}
+        %p.number
+          =repo.time_since_last_commit_in_words_number
+        %p.title
+          =repo.time_since_last_commit_in_words_units.upcase
+          SINCE LAST PUSH
+        %p.number
+          =repo.commits_within_last_week
+        %p.title
+          COMMITS WITHIN THE LAST WEEK
+        %p.number
+          ="#{repo.number_members_committed_within_day}/#{repo.number_members_total}"
+        %p.title
+          MEMBERS PUSHED WITHIN THE LAST DAY
+      .description
+        %h3
+          =repo.name
+        %p
+          =repo.description
+      .avatars
+        -repo.contributors.each do |contributor|
+          %img{:src => contributor[:avatar_url] + "&size=135" }
+        .divider
+        .last_commit
+          Last Github Update: September 14, 2012
 
-    .clearfix
+      .clearfix
 %p
   = link_to "Refresh", :controller => 'gitHub', :action => 'refresh'
 
