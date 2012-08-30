@@ -10,7 +10,7 @@ class Repository
 
   def self.fetch_from_github
     if not LastUpdateTime.first or LastUpdateTime.first.time < 10.minutes.ago
-      LastUpdateTime.time = DateTime.now
+      LastUpdateTime.first.time = DateTime.now
       repos = Github.new.repos
 
       YAML::load_file(File.join(Rails.root, 'config', 'repositories.yml')).each do |config|
