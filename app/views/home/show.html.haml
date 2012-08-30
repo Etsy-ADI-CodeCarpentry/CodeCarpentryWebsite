@@ -28,7 +28,7 @@
     The first project up is to build the website for the Code Carpentry program... This website, in fact!
 
 
-- [@repos[0], @repos[0], @repos[0], @repos[0], @repos[0], @repos[0], @repos[0], @repos[0]].each_with_index do |repo, i|
+- @repos.each_with_index do |repo, i|
   .repo_container
     .repo
       .stats
@@ -59,6 +59,43 @@
           Last Github Update: September 14, 2012
 
       .clearfix
-%p
-  = link_to "Refresh", :controller => 'gitHub', :action => 'refresh'
 
+.footer
+  .logo_container
+    %p
+      A COLLABORATION BETWEEN
+    %a{href: 'http://adicu.com'}
+      .text
+        application development initiative
+      .adi_logo
+    %a{href: 'http://www.etsy.com'}
+      .text
+        Etsy
+      .etsy_logo
+  .link_panel
+    %p
+      STAY CONNECTED
+
+    .column
+      .row
+        %a{href: 'https://github.com/etsy'}
+          Etsy on Github
+      .row
+        %a{href: 'https://twitter.com/Etsy'}
+          @Etsy
+      .row
+        %a{href: 'https://www.facebook.com/Etsy'}
+          Etsy on Facebook
+    .column
+      .row
+        %a{href: 'https://github.com/adicu'}
+          ADI on Github
+      .row
+        %a{href: 'http://twitter.com/adicu'}
+          @adicu
+      .row
+        %a{href: 'http://facebook.com/adicu'}
+          ADI on Facebook
+    .clearfix
+
+  .clearfix
