@@ -2,6 +2,7 @@ require 'digest/md5'
 
 class HomeController < ApplicationController
   def show
-      @repos = Repository.all
+    Repository.fetch_from_github
+    @repos = Repository.all
   end
 end
