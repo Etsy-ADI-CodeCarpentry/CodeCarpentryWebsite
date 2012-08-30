@@ -6,6 +6,8 @@ $header-font-color: #F26739;
 $dark-background-color: #E6E7E8;
 $light-background-color: #F1F2F2;
 $font-color: #6c6c6c;
+$medium-font-color: #a1a1a1;
+$light-font-color: #d3d3d3;
 $body-font: Georgia;
 $header-font: 'Oswald';
 $section-margin: 40px;
@@ -41,6 +43,14 @@ body, html {
 body {
   font-family: $body-font;
   color: $font-color;
+
+  a, a:visited, a:active {
+    text-decoration: none;
+    color: $font-color;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
 
   .divider {
     margin: 0 auto;
@@ -215,7 +225,7 @@ body {
           }
 
           .last_commit {
-            color: #a1a1a1;
+            color: $medium-font-color;
             margin-top: 15px;
           }
 
@@ -223,6 +233,68 @@ body {
             width: 295px;
             background-color: $divider-color;
           }
+        }
+      }
+    }
+  }
+
+  .footer {
+    margin: 0 auto;
+    width: $content-width;
+    color: $light-font-color;
+    margin-top: 50px;
+    margin-bottom: 100px;
+
+    .logo_container, .link_panel {
+      p {
+        font-family: $header-font;
+        font-size: 20px;
+        font-weight: 100;
+        letter-spacing: 2px;
+        border-bottom: 2px solid $light-font-color;
+      }
+    }
+
+    .logo_container {
+      float: left;
+      width: 314px;
+      a {
+        color: white;
+        .text {
+          width: 0px;
+          height: 0px;
+          display: none;
+        }
+      }
+
+      .adi_logo {
+        float: left;
+        width: 122px;
+        height: 64px;
+        background: url(/assets/adi-logo.png) 0 0;
+      }
+      .etsy_logo {
+        float: left;
+        margin-left: 30px;
+        width: 160px;
+        height: 78px;
+        background: url(/assets/etsy_logo.png) 0 -25px;
+      }
+    }
+
+    .link_panel {
+      float: right;
+      width: 300px;
+
+      .column {
+        padding-right: 20px;
+        float: left;
+        .row {
+          a, a:visited, a:active {
+            color: $medium-font-color;
+          }
+
+          padding-bottom: 10px;
         }
       }
     }
