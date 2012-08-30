@@ -49,7 +49,6 @@ CodeCarpentryWebsite::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root to: 'home#show'
-  match 'github/refresh' => 'gitHub#refresh'
 
   # See how all your routes lay out with "rake routes"
 
