@@ -25,7 +25,8 @@ class Repository
       repo = Repository.where(name: config[:name]).first || Repository.create(
           name: config[:name],
           description: config[:description],
-          url: repo_url
+          url: repo_url,
+          live_url: config[:live_url]
       )
 
       repos.contributors(config[:user], config[:repo]).each do |github_contributor|
@@ -45,9 +46,10 @@ class Repository
         if !commit
           date_string = github_commit.commit.author.values_at('date').first
           date = DateTime.strptime(date_string, '%Y-%m-%dT%H:%M:%S%Z')
+
           commit = Commit.new(
               message: github_commit.commit.message,
-              contributor: repo.contributors.where(login: github_commit.commit.author.login).first,
+              committer_email: github_commit.commit.committer.email,
               repository: repo,
               date: date,
               url: "#{repo_url}/commit/#{github_commit.sha}",
@@ -84,7 +86,7 @@ class Repository
 
   def number_members_committed_within_day
     commits_within_day = commits.reject { |c| c.date < 1.day.ago }
-    commits_within_day.group_by { |c| c.contributor_id }.size
+    commits_within_day.group_by { |c| c.committer_email }.size
   end
 
   def commits_within_last_week
