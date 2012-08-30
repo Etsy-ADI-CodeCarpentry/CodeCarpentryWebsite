@@ -32,7 +32,8 @@
   .repo_container
     .repo
       .stats
-        .team_logo{id: "logo-#{i+1}"}
+        %a{href: repo.url}
+          .team_logo{id: "logo-#{i+1}"}
         %p.number
           =repo.time_since_last_commit_in_words_number
         %p.title
@@ -48,15 +49,18 @@
           MEMBERS PUSHED WITHIN THE LAST DAY
       .description
         %h3
-          =repo.name
+          %a{href: repo.url, rel: 'canonical'}
+            =repo.name
         %p
           =repo.description
       .avatars
         -repo.contributors.each do |contributor|
-          %img{:src => contributor[:avatar_url] + "&size=135" }
+          %a{href: contributor.url, alt: "#{contributor.login} on Github"}
+            %img{src: contributor.avatar_url + "&size=135" }
         .divider
         .last_commit
-          Last Github Update: September 14, 2012
+          %a{href: repo.last_commit.url}
+            = "Last Github Update: #{repo.last_commit_date}"
 
       .clearfix
 

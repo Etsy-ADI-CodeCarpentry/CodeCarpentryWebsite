@@ -5,57 +5,69 @@ include ActionView::Helpers::DateHelper
 class Repository
   include Mongoid::Document
   field :name, type: String
+  field :url, type: String
+
   has_many :contributors
   has_many :commits
 
   def self.fetch_from_github
-    if not LastUpdateTime.last or LastUpdateTime.last.time < 10.minutes.ago
-      LastUpdateTime.create(time: DateTime.now)  
-      repos = Github.new.repos
+    last_update = LastUpdateTime.last
+    return if last_update && last_update.time > 10.minutes.ago
 
-      YAML::load_file(File.join(Rails.root, 'config', 'repositories.yml')).each do |config|
-        config.symbolize_keys!
+    LastUpdateTime.create(time: DateTime.now)
+    repos = Github.new.repos
 
-        repo = Repository.where(name: config[:name]).first || Repository.create(
-            name: config[:name],
-            description: config[:description]
+    YAML::load_file(File.join(Rails.root, 'config', 'repositories.yml')).each do |config|
+      config.symbolize_keys!
+
+      repo_url = repos.get(config[:user], config[:repo]).html_url.gsub(/\/$/, '')
+
+      repo = Repository.where(name: config[:name]).first || Repository.create(
+          name: config[:name],
+          description: config[:description],
+          url: repo_url
+      )
+
+      repos.contributors(config[:user], config[:repo]).each do |github_contributor|
+        contributor = Contributor.where(login: github_contributor.login).first || Contributor.new(
+            login: github_contributor.login,
+            avatar_url: github_contributor.avatar_url,
+            url: "https://github.com/#{github_contributor.login}",
+            repository: repo
         )
 
-        repos.contributors(config[:user], config[:repo]).each do |github_contributor|
-          contributor = Contributor.where(login: github_contributor.login).first || Contributor.new(
-              login: github_contributor.login,
-              avatar_url: github_contributor.avatar_url,
-              repository: repo
-          )
-
-          repo.contributors << contributor unless repo.contributors.where(login: contributor.login).exists?
-          contributor.save
-        end
-
-        repos.commits.all(config[:user], config[:repo]).each do |github_commit|
-          commit = Commit.where(sha: github_commit.sha).first
-          if !commit
-            date_string = github_commit.commit.author.values_at('date').first
-            date = DateTime.strptime(date_string, '%Y-%m-%dT%H:%M:%S%Z')
-            commit = Commit.new(
-                message: github_commit.commit.message,
-                contributor: repo.contributors.where(login: github_commit.commit.author.login).first,
-                repository: repo,
-                date: date,
-                sha: github_commit.sha
-            )
-          end
-
-          repo.commits << commit unless repo.commits.where(sha: commit.sha).exists?
-          commit.save
-        end
-        repo.save
+        repo.contributors << contributor unless repo.contributors.where(login: contributor.login).exists?
+        contributor.save
       end
+
+      repos.commits.all(config[:user], config[:repo]).each do |github_commit|
+        commit = Commit.where(sha: github_commit.sha).first
+        if !commit
+          date_string = github_commit.commit.author.values_at('date').first
+          date = DateTime.strptime(date_string, '%Y-%m-%dT%H:%M:%S%Z')
+          commit = Commit.new(
+              message: github_commit.commit.message,
+              contributor: repo.contributors.where(login: github_commit.commit.author.login).first,
+              repository: repo,
+              date: date,
+              url: "#{repo_url}/commit/#{github_commit.sha}",
+              sha: github_commit.sha
+          )
+        end
+
+        repo.commits << commit unless repo.commits.where(sha: commit.sha).exists?
+        commit.save
+      end
+      repo.save
     end
   end
 
+  def last_commit
+    commits.sort_by { |c| c.date }.last
+  end
+
   def last_commit_date
-    commits.sort_by { |c| c.date }.last.date.to_date.to_formatted_s(:long)
+    last_commit.date.to_date.to_formatted_s(:long)
   end
 
   def time_since_last_commit_in_words_number

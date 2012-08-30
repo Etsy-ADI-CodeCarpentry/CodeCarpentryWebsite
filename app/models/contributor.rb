@@ -3,6 +3,8 @@ class Contributor
   field :login, type: String
   field :name,  type: String
   field :avatar_url, type: String
+  field :url, type: String
+
   has_many :commits
   belongs_to :repository
 end
